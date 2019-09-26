@@ -2,12 +2,12 @@ from setuptools import find_packages, setup
 
 
 setup(
-    name='radicale-imap',
-    version='0.1.2',
-    author='Nikos Roussos',
-    author_email='nikos@roussos.cc',
-    url='https://gitlab.com/comzeradd/radicale-imap/',
-    description='Radicale IMAP authentication plugin',
+    name='radicale-imaps',
+    version='0.1.0',
+    author='Louis Guidez',
+    author_email='louis@hostux.fr',
+    url='https://github.com/reind33r/radicale-imaps',
+    description='Radicale IMAPs authentication plugin',
     include_package_data=True,
     zip_safe=False,
     packages=find_packages(),

@@ -1,7 +1,7 @@
 # Radicale IMAP authentication plugin
 
 IMAP authentication plugin for [Radicale](http://radicale.org/).
-This is a simplification fork of [RadicaleIMAP](https://github.com/Unrud/RadicaleIMAP).
+This is a fork of [radicale-imap](https://github.com/comzeradd/radicale-imap) that uses IMAP4_SSL instead of IMAP4 to initiate connection.
 
 ## Installation
 
@@ -11,8 +11,7 @@ This is a simplification fork of [RadicaleIMAP](https://github.com/Unrud/Radical
 
     [auth]
     type = radicale_imap
-    imap_host = address:port
-    imap_secure = True
+    imaps_host = address:port
 
 ## License
 

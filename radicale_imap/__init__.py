@@ -1,6 +1,7 @@
 # radicale-imap IMAP authentication plugin for Radicale.
 # Copyright (C) 2017 Unrud <unrud@openaliasbox.org>
 # Copyright (C) 2018 Nikos Roussos <nikos@roussos.cc>.
+# Copyright (C) 2019 Louis Guidez <louis@hostux.fr>.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,18 +29,14 @@ class Auth(BaseAuth):
 
     [auth]
     type = radicale_imap
-    imap_host = example.com:143
-    imap_secure = True
+    imaps_host = example.com:143
     """
 
     def is_authenticated(self, user, password):
         # Parse configuration options
         host = ''
-        if self.configuration.has_option('auth', 'imap_host'):
-            host = self.configuration.get('auth', 'imap_host')
-        secure = True
-        if self.configuration.has_option('auth', 'imap_secure'):
-            secure = self.configuration.getboolean('auth', 'imap_secure')
+        if self.configuration.has_option('auth', 'imaps_host'):
+            host = self.configuration.get('auth', 'imaps_host')
         try:
             if ':' in host:
                 address, port = host.rsplit(':', maxsplit=1)
@@ -50,23 +47,23 @@ class Auth(BaseAuth):
             raise RuntimeError(
                 'Failed to parse address %r: %s' % (host, e)) from e
 
-        # Attempt connection with IMAP server
+        # Attempt connection with IMAPs server
         try:
-            connection = imaplib.IMAP4(host=address, port=port)
+            connection = imaplib.IMAP4_SSL(host=address, port=port)
         except (OSError, imaplib.IMAP4.error) as e:
-            raise RuntimeError('Failed to communicate with IMAP server %r: '
+            raise RuntimeError('Failed to communicate with IMAPs server %r: '
                                '%s' % (host, e)) from e
 
         # Upgrade connection to StartTLS
-        context = ssl.create_default_context()
-        if not secure:
-            context.check_hostname = False
-            context.verify_mode = ssl.CERT_NONE
-        try:
-            connection.starttls(context)
-        except (imaplib.IMAP4.error, ssl.CertificateError) as e:
-            raise RuntimeError('Failed to establish secure connection with %r: %s'
-                               % (host, e)) from e
+        # context = ssl.create_default_context()
+        # if not secure:
+        #     context.check_hostname = False
+        #     context.verify_mode = ssl.CERT_NONE
+        # try:
+        #     connection.starttls(context)
+        # except (imaplib.IMAP4.error, ssl.CertificateError) as e:
+        #     raise RuntimeError('Failed to establish secure connection with %r: %s'
+        #                        % (host, e)) from e
 
         # Attempt to authenticate user
         try:
