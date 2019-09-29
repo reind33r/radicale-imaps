@@ -5,7 +5,7 @@ This is a fork of [radicale-imap](https://github.com/comzeradd/radicale-imap) th
 
 ## Installation
 
-    python3 -m pip install radicale-imap
+    python3 -m pip install radicale-imaps
 
 ## Configuration
 
